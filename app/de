@@ -1,0 +1,13 @@
+from app import create_app, db
+from app.models import User
+
+app = create_app()
+
+with app.app_context():
+    admin = User.query.filter_by(email='admin@statandmore.fr').first()
+    if admin:
+        admin.set_password('11')  # Remplacez par le nouveau mot de passe souhaité
+        db.session.commit()
+        print("Mot de passe admin réinitialisé avec succès.")
+    else:
+        print("Utilisateur admin introuvable.")

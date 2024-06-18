@@ -1,0 +1,50 @@
+import pandas as pd
+import folium
+from folium.plugins import MarkerCluster
+
+# Chemin du fichier CSV
+df_final_file = r"C:\Users\svienne\OneDrive - BLANCHON\Bureau\DATA_STATANDMORE\df_final.csv"
+
+# Charger les données CSV dans un DataFrame pandas
+df_final = pd.read_csv(df_final_file, low_memory=False)
+df_final = df_final.dropna(subset=['latitude', 'longitude'])
+df_final['latitude'] = pd.to_numeric(df_final['latitude'], errors='coerce')
+df_final['longitude'] = pd.to_numeric(df_final['longitude'], errors='coerce')
+df_final = df_final.dropna(subset=['latitude', 'longitude'])
+
+# Prendre un échantillon de 1000 lignes
+df_sample = df_final.sample(n=1000, random_state=42)
+
+# Créer une carte de base
+map1 = folium.Map(location=[10, 20], zoom_start=2, tiles='OpenStreetMap')
+
+# Initialiser le regroupement de marqueurs
+marker_cluster = MarkerCluster().add_to(map1)
+
+# Ajouter les marqueurs au cluster
+for idx, row in df_sample.iterrows():
+    popup_content = (
+	    f"<b>evenement:</b> {row['evenement']}<br>"
+        f"<b>opreation_id:</b> {row['Evénement']}<br>"
+        f"<b>type_operation:</b> {row['type_operation']}<br>"
+        f"<b>departement:</b> {row['departement']}<br>"
+        f"<b>categorie_evenement:</b> {row['categorie_evenement']}<br>"
+		f"<b>date_heure_reception_alerte:</b> {row['date_heure_reception_alerte']}<br>"
+        f"<b>zone_responsabilite:</b> {row['departement']}<br>"
+        f"<b>cross_sitrep:</b> {row['cross_sitrep']}<br>"
+		f"<b>type_flotteur:</b> {row['type_flotteur']}<br>"
+        f"<b>nombre_personnes_decedees:</b> {row['nombre_personnes_decedees']}<br>"
+        f"<b>distance_cote_metres:</b> {row['distance_cote_metres']}<br>"
+    )
+    folium.Marker(
+        location=[row['latitude'], row['longitude']],
+        popup=popup_content,
+        icon=folium.Icon(color='blue', icon='info', prefix='fa')
+    ).add_to(marker_cluster)
+
+# Afficher la carte
+from IPython.display import display
+display(map1)
+
+# Sauvegarder la carte
+map1.save('my_map.html')
