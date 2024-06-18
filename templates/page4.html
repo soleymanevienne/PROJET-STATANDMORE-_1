@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyse Géographique</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            margin: 0;
+            padding: 0;
+            font-family: "Open Sans", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: #1f2630;
+            border: 2px solid #ffffff;
+            zoom: 0.8; 
+        }
+        .button-column {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .sidebar {
+            padding: 10px;
+            flex-grow: 1;
+            margin: 4px;
+            border: 10px solid #4e576a;
+            height: 105vh; 
+            overflow-y: hidden;
+            margin-top: 20px; 
+            justify-content: center;
+            align-items: center;
+            background-color: #252e3f;
+            border: 3px solid #4e576a;
+            border-radius: 20px;
+            overflow : auto ;
+        }
+        select, input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        .sidebar::-webkit-scrollbar {
+            width: 8px;
+            height: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background-color: white; 
+            border-radius: 4px; 
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background-color: #333a4d; 
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #fff;
+        }
+        select, input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        .content {
+            flex-grow: 1;
+            width: calc(100% - 260px);
+            padding: 20px;
+            color: #fff;
+        }
+        .indicator {
+            background-color: #333a4d;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .indicator h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .indicator p {
+            font-size: 32px;
+            margin: 10px 0 0;
+        }
+        .button-container2 {
+            text-align: left;
+            margin-bottom: 30px;
+            padding-top: 5px;
+        }
+        .button {
+            background-color: #072651;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 14px;
+            border-radius: 5px;
+            margin: 0 10px;
+        }
+        .button:hover {
+            background-color: #ffcc00;
+        }
+        .kpi-container {
+            flex-grow: 1;
+            margin: 8px;
+            border: 10px solid #4e576a;
+            height: 80vh;
+            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            background-color: #252e3f;
+            border: 3px solid #4e576a;
+            border-radius: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .kpi-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .kpi-container::-webkit-scrollbar-thumb {
+            background-color: white;
+            border-radius: 4px;
+        }
+        .kpi-container::-webkit-scrollbar-track {
+            background-color: #333a4d;
+        }
+        .kpi {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 16px;
+            transition: transform 0.2s;
+        }
+        .kpi:hover {
+            transform: scale(1.05);
+        }
+        .kpi-title {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .kpi-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .ui-dialog-titlebar-close {
+            background: #ff0000;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+        .ui-dialog {
+            background-color: #252e3f;
+            color: #fff;
+        }
+        .buttonDECE, .buttonEVE, .buttonHUM {
+            background-color: #072651;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 3px solid #4e576a;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+            width: 200px;
+            text-align: center;
+        }
+        .buttonDECE:hover, .buttonEVE:hover, .buttonHUM:hover {
+            background-color: #ffcc00;
+        }
+        .form-container {
+            margin: 10px 0;
+            text-align: left;
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .logout-icon {
+            margin-right: -100%;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logout-icon2 {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .logout-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+
+        }
+        .chart-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            height: auto;
+            width: auto;
+            margin: 20px auto;
+        }
+        .chart-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #252e3f;
+            border: 3px solid #4e576a;
+            border-radius: 20px;
+            padding: 20px;
+            width: 100%;
+            height: 300px;
+        }
+        
+        .chart-item2 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #252e3f;
+            border: 3px solid #4e576a;
+            border-radius: 20px;
+            padding: 20px;
+            width: 100%;
+            height: 300px;
+        }
+
+
+        
+
+        .settings-sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+        .settings-sidebar a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+        .settings-sidebar a:hover {
+            color: #f1f1f1;
+        }
+        .settings-sidebar .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+               
+        .open-settings {
+            cursor: pointer;
+        }
+
+        .settings-sidebar.open {
+            width: 250px;
+        }
+        .delete-account-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 17px;
+            margin-top: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .delete-account-btn:hover {
+            background-color: darkred;
+            transform: scale(1.1);
+        }
+        .toggle-mode-btn {
+            background-color: #555;
+            color: white;
+            width:85%;
+            border: none;
+            padding: 7px;
+            margin-top: 2px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .toggle-mode-btn:hover {
+            background-color: #777;
+            transform: scale(1.1);
+            padding: 17px;
+            margin-top: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        body.light-mode {
+            background-color: white;
+            color: black;
+            
+        }
+
+        body.dark-mode {
+            background-color: #1f2630;
+            color: white;
+        }
+        :root {
+            --light: #d8dbe0;
+            --dark: #28292c;
+            --link: rgb(27, 129, 112);
+            --link-hover: rgb(24, 94, 82);
+          }
+          
+          .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            margin: 20px 0; 
+          }
+          
+          .toggle-switch label {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--dark);
+            border-radius: 50px;
+            cursor: pointer;
+          }
+          
+          .toggle-switch input {
+            position: absolute;
+            display: none;
+          }
+          
+          .toggle-switch .slider {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50px;
+            transition: 0.3s;
+          }
+          
+          .toggle-switch input:checked ~ .slider {
+            background-color: var(--light);
+          }
+          
+          .toggle-switch .slider::before {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            box-shadow: inset 12px -4px 0px 0px var(--light);
+            background-color: var(--dark);
+            transition: 0.3s;
+          }
+          
+          .toggle-switch input:checked ~ .slider::before {
+            transform: translateX(30px);
+            background-color: var(--dark);
+          }
+          
+          .toggle-switch a {
+            position: relative;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            top: 150px;
+            left: 10px;
+            font-size: 10px;
+            text-decoration: none;
+            color: var(--link);
+            font-weight: bold;
+            text-align: center;
+          }
+          
+          .toggle-switch a:hover {
+            color: var(--link-hover);
+          }
+          
+          body.light-mode {
+            background-color: white;
+            color: black;
+          }
+          
+          body.dark-mode {
+            background-color: #1f2630;
+            color: white;
+          }
+          .info-button {
+            margin-top: 50px;
+            text-align: left;
+            height: 40px;
+        }
+    
+        .info-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 10px; 
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    
+        .info-link:hover {
+            background-color: #ffcc00;;
+        }
+    
+        .info-link i {
+            margin-right: 10px;
+        }
+          
+
+        
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="https://statandmore.com/images/logo.png" alt="Logo" width="212" height="100">
+        </div>
+        <div class="form-container">
+            <form action="/page4" method="post">
+                <button type="submit" 
+                    style="background: linear-gradient(to right, #ff105f, #ffad06); border: none; border-radius: 25px; color: white; font-size: 16px; cursor: pointer; transition: background 0.3s ease; margin: 5px;" 
+                    onmouseover="this.style.background='linear-gradient(to left, #ff105f, #ffad06)'" 
+                    onmouseout="this.style.background='linear-gradient(to right, #ff105f, #ffad06)'">
+                    Appliquer
+                </button>
+                <label for="page4_date_start">Date de début:</label>
+                <input type="text" id="page4_date_start" name="page4_date_start" value="{{ date_debut }}">
+                <label for="page4_date_end">Date de fin:</label>
+                <input type="text" id="page4_date_end" name="page4_date_end" value="{{ date_fin }}">
+                <label for="categorie_personne">Catégorie de personne:</label>
+                <select name="categorie_personne" id="categorie_personne">
+                    <option value="Tous">Tous</option>
+                    {% for cat in unique_categories_personne %}
+                    <option value="{{ cat }}" {% if cat == categorie_personne %}selected{% endif %}>{{ cat }}</option>
+                    {% endfor %}
+                </select>
+                <label for="categorie_qui_alerte">Catégorie qui alerte:</label>
+                <select name="categorie_qui_alerte" id="categorie_qui_alerte">
+                    <option value="Tous">Tous</option>
+                    {% for cat in unique_categories_qui_alerte %}
+                    <option value="{{ cat }}" {% if cat == categorie_qui_alerte %}selected{% endif %}>{{ cat }}</option>
+                    {% endfor %}
+                </select>
+                <label for="categorie_evenement">Catégorie d'événement:</label>
+                <select name="categorie_evenement" id="categorie_evenement">
+                    <option value="Tous">Tous</option>
+                    {% for cat in unique_categories_evenement %}
+                    <option value="{{ cat }}" {% if cat == categorie_evenement %}selected{% endif %}>{{ cat }}</option>
+                    {% endfor %}
+                </select>
+                <label for="autorite">Autorité:</label>
+                <select name="autorite" id="autorite">
+                    <option value="Tous">Tous</option>
+                    {% for auth in unique_autorites %}
+                    <option value="{{ auth }}" {% if auth == autorite %}selected{% endif %}>{{ auth }}</option>
+                    {% endfor %}
+                </select>
+                <label for="zone_responsabilite">Zone de responsabilité:</label>
+                <select name="zone_responsabilite" id="zone_responsabilite">
+                    <option value="Tous">Tous</option>
+                    {% for zone in unique_zones_responsabilite %}
+                    <option value="{{ zone }}" {% if zone == zone_responsabilite %}selected{% endif %}>{{ zone }}</option>
+                    {% endfor %}
+                </select>
+                <label for="pavillon">Pavillon:</label>
+                <select name="pavillon" id="pavillon">
+                    <option value="Tous">Tous</option>
+                    {% for pav in unique_pavillons %}
+                    <option value="{{ pav }}" {% if pav == pavillon %}selected{% endif %}>{{ pav }}</option>
+                    {% endfor %}
+                </select>
+                <label for="categorie_flotteur">Catégorie de flotteur:</label>
+                <select name="categorie_flotteur" id="categorie_flotteur">
+                    <option value="Tous">Tous</option>
+                    {% for cat in unique_categories_flotteur %}
+                    <option value="{{ cat }}" {% if cat == categorie_flotteur %}selected{% endif %}>{{ cat }}</option>
+                    {% endfor %}
+                </select>
+                <label for="numero_immatriculation">Numéro d'immatriculation:</label>
+                <input type="text" id="numero_immatriculation" name="numero_immatriculation" value="{{ numero_immatriculation }}">
+                <label for="est_jour_ferie">Est jour férié:</label>
+                <select name="est_jour_ferie" id="est_jour_ferie">
+                    <option value="Tous">Tous</option>
+                    <option value="True" {% if est_jour_ferie == 'True' %}selected{% endif %}>Oui</option>
+                    <option value="False" {% if est_jour_ferie == 'False' %}selected{% endif %}>Non</option>
+                </select>
+                <label for="est_vacances_scolaires">Est vacances scolaires:</label>
+                <select name="est_vacances_scolaires" id="est_vacances_scolaires">
+                    <option value="Tous">Tous</option>
+                    <option value="True" {% if est_vacances_scolaires == 'True' %}selected{% endif %}>Oui</option>
+                    <option value="False" {% if est_vacances_scolaires == 'False' %}selected{% endif %}>Non</option>
+                </select>
+                <label for="phase_journee">Phase de la journée:</label>
+                <select name="phase_journee" id="phase_journee">
+                    <option value="Tous">Tous</option>
+                    {% for phase in unique_phases_journee %}
+                    <option value="{{ phase }}" {% if phase == phase_journee %}selected{% endif %}>{{ phase }}</option>
+                    {% endfor %}
+                </select>
+                <label for="concerne_plongee">Concerne la plongée:</label>
+                <select name="concerne_plongee" id="concerne_plongee">
+                    <option value="Tous">Tous</option>
+                    <option value="True" {% if concerne_plongee == 'True' %}selected{% endif %}>Oui</option>
+                    <option value="False" {% if concerne_plongee == 'False' %}selected{% endif %}>Non</option>
+                </select>
+                <label for="avec_clandestins">Avec clandestins:</label>
+                <select name="avec_clandestins" id="avec_clandestins">
+                    <option value="Tous">Tous</option>
+                    <option value="True" {% if avec_clandestins == 'True' %}selected{% endif %}>Oui</option>
+                    <option value="False" {% if avec_clandestins == 'False' %}selected{% endif %}>Non</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    <div class="content">
+        <div class="nav-container">
+            <div class="logout-icon">
+                <a href="/template" class="button buttonpage1">Page Principale</a>
+                <a href="/page1" class="button buttonpage1">Bilan humain</a>
+                <a href="/page2" class="button buttonpage2"> Opérations et événements</a>
+                <a href="/page3" class="button buttonpage2"> Analyse flotteur</a>
+                <a href="/page4" class="button buttonpage2" style="background-color:#ffcc00;"    >Analyse Géographique</a>
+                {% if user and user.role == 'ADMIN' %}
+                <a href="/admin/manage_users" class="button buttonpage2">Gérer les utilisateurs</a>
+                {% endif %}
+            </div>
+            <div class="logout-icon2">
+                <a href="/profil">
+                    <img src="{{ url_for('static', filename='image/' + user.avatar) }}" alt="User Avatar" style="width: 45px; height: 45px; border-radius: 40%;">
+                </a>
+                <a href="/"><i class="fa fa-sign-out" style="font-size:50px; color: white;margin-left:30px;color:#7F8C8D;"></i></a>
+                <a href="javascript:void(0)" class="settings-button" onclick="openNav()"><i class="fa fa-cog" style="font-size:48px;color:white;color:#7F8C8D;"></i></a>
+            </div>
+        </div>
+        <div class="chart-container">
+            <div class="chart-item">
+                <img src="/static/modal-operations-par-categorie-qui-alerte.png" alt="Nombre d'Opérations par Catégorie de Personne qui Alerte">
+            </div>
+            <div class="chart-item2">
+                <img src="{{ url_for('static', filename='donut-chart-operations-par-pavillon.png') }}" alt="Répartition des Opérations par Pavillon">
+            </div>
+            <div class="chart-item">
+                <img src="{{ url_for('static', filename='bar-chart-operations-par-zone-responsabilite.png') }}" alt="Nombre d'Opérations par Zone de Responsabilité">
+            </div>
+            <div class="chart-item">
+                <img src="/static/bar-chart-operations-par-categorie-personne.png" alt="Nombre d'Opérations par Catégorie de Personne">
+            </div>
+        </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const toggleModeBtn = document.getElementById("toggleMode");
+        
+            toggleModeBtn.addEventListener("change", function() {
+                document.body.classList.toggle("light-mode");
+                document.body.classList.toggle("dark-mode");
+        
+                if (document.body.classList.contains("light-mode")) {
+                    localStorage.setItem("mode", "light");
+                } else {
+                    localStorage.setItem("mode", "dark");
+                }
+            });
+        
+            const savedMode = localStorage.getItem("mode");
+            if (savedMode) {
+                if (savedMode === "light") {
+                    document.body.classList.add("light-mode");
+                    document.body.classList.remove("dark-mode");
+                    toggleModeBtn.checked = true;
+                } else {
+                    document.body.classList.add("dark-mode");
+                    document.body.classList.remove("light-mode");
+                    toggleModeBtn.checked = false;
+                }
+            } else {
+                document.body.classList.add("dark-mode");
+                toggleModeBtn.checked = false;
+            }
+        });
+        $(function() {
+            $("#page4_date_start").datepicker({
+                dateFormat: 'mm/dd/yy'
+            });
+
+            $("#page4_date_end").datepicker({
+                dateFormat: 'mm/dd/yy'
+            });
+        });
+        function openNav() {
+            document.getElementById("settingsSidebar").style.width = "110px";
+        }
+
+        function closeNav() {
+            document.getElementById("settingsSidebar").style.width = "0";
+        }
+    </script>
+
+    <div id="settingsSidebar" class="settings-sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+        <div class="toggle-switch">Dark/Light
+            <label>
+                <input type="checkbox" id="toggleMode">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="info-button">
+            <a href="/accueil" class="info-link">
+                <i class="fas fa-info-circle"></i>
+            </a>
+        </div>
+    </div>
+
+    
+    
+</script>
+</body>
+</html>

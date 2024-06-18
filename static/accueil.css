@@ -1,0 +1,150 @@
+body, html {
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(27, 22, 22);
+  background-image: url('static/image/copyrightAbeillesInternationalAb.ABBO_.mauvais-temps.2016-2-scaled.jpg');
+  background-size: cover;
+  
+}
+/* Styles pour la scrollbar */
+body::-webkit-scrollbar {
+  width: 8px;
+  height: 3px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: white; /* Couleur de la poignée */
+  border-radius: 4px; /* Arrondi de la poignée */
+}
+
+body::-webkit-scrollbar-track {
+  background-color: #333a4d; /* Couleur de la piste */
+}
+
+
+.header {
+  padding: 10px 0;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: #1f2630;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  max-width: 900px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+
+.logo {
+  max-width: 200px;
+}
+
+.social-icons {
+  display: flex;
+  gap: 10px;
+}
+
+.social-icon {
+  color: white;
+  font-size: 24px;
+  text-decoration: none;
+}
+
+.social-icon:hover {
+  color: #ffcc00;
+}
+
+.intro, .team, .content, .footer {
+  padding: 50px 0;
+  text-align: center;
+}
+
+.intro {
+  color: white;
+}
+
+.intro h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.intro p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.btn {
+  background: linear-gradient(to right, #ff105f, #ffad06);
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin: 5px;
+  display: inline-block;
+}
+
+.btn:hover {
+  background: linear-gradient(to left, #ff105f, #ffad06);
+}
+
+.team {
+  color: white;
+}
+
+.team-member {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.team-image {
+  border-radius: 50%;
+  max-width: 150px;
+  margin-bottom: 10px;
+}
+
+.content {
+  color: white;
+  text-align: left;
+  padding: 50px;  
+
+}
+
+.content h2, .content h3 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.content p, .content ul {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.footer {
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.footer a {
+  color: #ffcc00;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}

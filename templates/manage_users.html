@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Users</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            color: white;
+            background: url('/static/image/accident-bateau.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .manage-box {
+            background-color: #1f2630;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            max-width: 900px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .manage-box h1 {
+            font-size: 48px;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .manage-box .button {
+            background: linear-gradient(to right, #ff105f, #ffad06);
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin: 5px;
+            display: inline-block;
+        }
+
+        .manage-box .button:hover {
+            background: linear-gradient(to left, #ff105f, #ffad06);
+        }
+
+        .manage-box .return-button {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            margin-bottom: 20px;
+        }
+        
+        .manage-box .return-button:hover {
+            background: linear-gradient(to left, #6a11cb, #2575fc);
+        }
+
+        .manage-box table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .manage-box th, .manage-box td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .manage-box th {
+            background-color: #1f2630;
+            color: white;
+        }
+
+        .manage-box tr:nth-child(even) {
+            background-color: #2a2f38;
+        }
+
+        .manage-box tr:hover {
+            background-color: #3a3f48;
+        }
+
+        .alert {
+            padding: 15px;
+            background-color: #f44336;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .alert.success {background-color: #4CAF50;} 
+        .alert.info {background-color: #2196F3;} 
+        .alert.warning {background-color: #ff9800;} 
+        
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 22px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .closebtn:hover {
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="manage-box">
+        <h1 class="animate-charcter">Gérer les utilisateurs</h1>
+        <button class="button return-button" onclick="window.location.href='{{ url_for('template') }}'">Retourner au Dashboard</button>
+        <button class="button" onclick="window.location.href='{{ url_for('register') }}'">Ajouter un utilisateur</button>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert {{ category }}">
+                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        <form action="{{ url_for('delete_user', user_id=user.id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="button">Supprimer</button>
+                        </form>
+                        <button class="button" onclick="window.location.href='{{ url_for('edit_user', user_id=user.id) }}'">Editer</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

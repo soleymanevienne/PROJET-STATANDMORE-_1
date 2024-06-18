@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" class="html_login">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body, html {
+            
+            transform: scale(0.9); 
+
+            height: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+            color: white;
+            background-image: url('static/image/accident-bateau.jpeg');
+            background-size: 100%; 
+            background-position: center; 
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            background-color: #1f2630;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            max-width: 900px;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            flex: 1;
+        }
+        h1 {
+            font-size: 48px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+        .user-box {
+            position: relative;
+            margin: 20px 0;
+            width: 100%;
+        }
+        .user-box input {
+            width: 100%;
+            padding: 10px 0;
+            font-size: 16px;
+            color: white;
+            margin-bottom: 30px;
+            border: none;
+            border-bottom: 1px solid white;
+            outline: none;
+            background: transparent;
+        }
+        .user-box label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 10px 0;
+            font-size: 16px;
+            color: white;
+            pointer-events: none;
+            transition: 0.5s;
+        }
+        .user-box input:focus ~ label,
+        .user-box input:valid ~ label {
+            top: -20px;
+            left: 0;
+            color: #ffcc00;
+            font-size: 12px;
+        }
+        .avatar-selection {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .avatar-selection label {
+            margin: 0 40px;
+        }
+        .avatar-selection img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid white;
+            cursor: pointer;
+        }
+        .button {
+            background: linear-gradient(to right, #ff105f, #ffad06);
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 20px;
+            width: 100%;
+            text-align: center;
+        }
+        .button:hover {
+            background: linear-gradient(to left, #ff105f, #ffad06);
+        }
+        .a_login {
+            color: white;
+            font-size: 16px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        .a_login:hover {
+            text-decoration: underline;
+        }
+        .btn-return {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn-return:hover {
+            background-color: #5a6268;
+        }
+        @media (max-width: 768px) {
+            .login-box {
+                flex-direction: column;
+                align-items: center;
+            }
+            .form-container {
+                padding: 10px;
+            }
+            .user-box {
+                margin: 10px 0;
+            }
+            .button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <div class="form-container">
+            <h1>Profil de {{ user.email }}</h1>
+
+            <form method="POST">
+                <div class="user-box">
+                    <input type="password" name="password" id="password" required>
+                    <label for="password">Changer le mot de passe</label>
+                    <input type="hidden" name="action" value="update_password">
+                </div>
+                <button type="submit" class="button">Mettre à jour le mot de passe</button>
+            </form>
+            <br>
+            <br>
+            
+
+            <form method="POST">
+                <div class="avatar-selection">
+                    <label>
+                        <input type="radio" name="avatar" value="avatar-2.jpg" {% if user.avatar == 'avatar-2.jpg' %}checked{% endif %}>
+                        <img src="{{ url_for('static', filename='image/avatar-2.jpg') }}" alt="Avatar 1">
+                    </label>
+                    <label>
+                        <input type="radio" name="avatar" value="avatar-3.jpg" {% if user.avatar == 'avatar-3.jpg' %}checked{% endif %}>
+                        <img src="{{ url_for('static', filename='image/avatar-3.jpg') }}" alt="Avatar 2">
+                    </label>
+                    <input type="hidden" name="action" value="update_avatar">
+                </div>
+                <button type="submit" class="button">Mettre à jour l'avatar</button>
+            </form>
+            
+            <a href="/template" class="btn-return">Retour à la page principale</a>
+        </div>
+    </div>
+</body>
+</html>

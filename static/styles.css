@@ -1,0 +1,314 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:200,900');
+
+:root {
+  --text-color: hsla(210, 50%, 85%, 1);
+  --shadow-color: hsla(210, 40%, 52%, .4);
+  --btn-color: hsl(210, 80%, 42%);
+  --bg-color: #141218;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.html_login {
+    height: 100%;
+}
+.body_login {
+    margin:0;
+    padding:0;
+    font-family: sans-serif;
+    background: linear-gradient(#141e30, #243b55);
+}
+
+.a_login {
+  color: white;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.h2_login {
+  user-select: none;
+}
+
+/* Styles pour les messages d'erreur */
+.alert-error {
+  color: #cc0000; /* Couleur du texte rouge */
+  padding: 10px; /* Ajouter un espace autour du texte */
+  margin-bottom: 10px; /* Ajouter un espace en bas du message */
+}
+
+
+/* Styles pour les messages de succès */
+.alert-success {
+  color: #006600; /* Couleur du texte verte foncé */
+  padding: 10px; /* Ajouter un espace autour du texte */
+  margin-bottom: 10px; /* Ajouter un espace en bas du message */
+}
+
+.logout-button {
+  position: absolute; /* Position absolue pour placer le bouton où vous le souhaitez */
+  top: 20px; /* Position par rapport au haut de la page */
+  right: 20px; /* Position par rapport à la droite de la page */
+}
+
+
+
+
+.horizontal-sidebar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #252e3f;
+  padding: 10px;
+  border-bottom: 3px solid #4e576a;
+}
+
+.horizontal-sidebar .logo {
+  margin-left: 10px;
+}
+
+.horizontal-sidebar .login-button {
+  margin-right: 10px;
+}
+
+.login-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    padding: 40px;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,.5);
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0,0,0,.6);
+    border-radius: 10px;
+}
+
+.login-box h2 {
+    margin: 0 0 30px;
+    padding: 0;
+    color: #fff;
+    text-align: center;
+}
+
+.login-box .user-box {
+    position: relative;
+}
+
+.login-box .user-box input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+}
+
+.login-box .user-box label {
+    position: absolute;
+    top:0;
+    left: 0;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+    pointer-events: none;
+    transition: .5s;
+}
+
+.login-box .user-box input:focus ~ label,
+.login-box .user-box input:valid ~ label {
+    top: -20px;
+    left: 0;
+    color: #03e9f4;
+    font-size: 12px;
+}
+
+
+.button {
+  position:relative;
+  padding: 10px 20px;  
+  border: none;
+  background: none;
+  cursor: pointer;
+  
+  font-family: "Source Code Pro";
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 30px;  
+  color: var(--text-color);
+  
+  background-color: var(--btn-color);
+  box-shadow: var(--shadow-color) 2px 2px 22px;
+  border-radius: 4px; 
+  z-index: 0;  
+  overflow: hidden;   
+}
+
+.button:focus {
+  outline-color: transparent;
+  box-shadow: var(--btn-color) 2px 2px 22px;
+}
+
+.right::after, .button::after {
+  content: var(--content);
+  display: block;
+  position: absolute;
+  white-space: nowrap;
+  padding: 40px 40px;
+  pointer-events:none;
+}
+
+.button::after{
+  font-weight: 200;
+  top: -30px;
+  left: -20px;
+} 
+
+.right, .left {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+.right {
+  left: 66%;
+}
+.left {
+  right: 66%;
+}
+.right::after {
+  top: -30px;
+  left: calc(-66% - 20px);
+  
+  background-color: var(--bg-color);
+  color:transparent;
+  transition: transform .4s ease-out;
+  transform: translate(0, -90%) rotate(0deg)
+}
+
+.button:hover .right::after {
+  transform: translate(0, -47%) rotate(0deg)
+}
+
+.button .right:hover::after {
+  transform: translate(0, -50%) rotate(-7deg)
+}
+
+.button .left:hover ~ .right::after {
+  transform: translate(0, -50%) rotate(7deg)
+}
+
+/* bubbles */
+.button::before {
+  content: '';
+  pointer-events: none;
+  opacity: .6;
+  background:
+    radial-gradient(circle at 20% 35%,  transparent 0,  transparent 2px, var(--text-color) 3px, var(--text-color) 4px, transparent 4px),
+    radial-gradient(circle at 75% 44%, transparent 0,  transparent 2px, var(--text-color) 3px, var(--text-color) 4px, transparent 4px),
+    radial-gradient(circle at 46% 52%, transparent 0, transparent 4px, var(--text-color) 5px, var(--text-color) 6px, transparent 6px);
+
+  width: 100%;
+  height: 300%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  animation: bubbles 5s linear infinite both;
+}
+
+@keyframes bubbles {
+  from {
+    transform: translate();
+  }
+  to {
+    transform: translate(0, -66.666%);
+  }
+}
+
+.animate-charcter
+{
+   text-transform: uppercase;
+  background-image: linear-gradient(
+    -225deg,
+    #231557 0%,
+    #44107a 29%,
+    #ff1361 67%,
+    #fff800 100%
+  );
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 200% auto;
+  color: #fff;
+  background-clip: text;
+  color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textclip 2s linear infinite;
+  display: inline-block;
+      font-size: 48px;
+}
+
+@keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.body_dash {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0;
+  font-family: "Open Sans", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #1f2630;
+  overflow-y: hidden; /* Empêcher le défilement vertical */
+  border: 2px solid #ffffff; /* Ajouter une bordure blanche */
+}
+.sidebar {
+  background-color: #252e3f;
+  width: 260px;
+  padding: 10px;
+  border: 3px solid #4e576a;
+  margin-top: 20px;
+  overflow-y: auto;
+  height: 87vh;
+  text-align: left;
+  font-size: 24px;
+  color: #fff;
+  margin-bottom: 20px;
+}
+/* Style pour la scrollbar */
+.sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: #4e576a; /* Couleur de la poignée */
+  border-radius: 4px; /* Arrondi de la poignée */
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background-color: #333a4d; /* Couleur de la piste */
+}
+.logo {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.label_dash {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #000;
+}
+.select_dash {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+}

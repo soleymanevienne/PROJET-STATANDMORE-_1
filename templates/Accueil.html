@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='accueil.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+          <img src="{{ url_for('static', filename='image/logo.png') }}" alt="Logo" class="logo">
+            <div class="social-icons">
+                <a href="https://facebook.com/name" class="social-icon"><i class="fa fa-facebook"></i></a>
+                <a href="https://twitter.com/name" class="social-icon"><i class="fa fa-twitter"></i></a>
+                <a href="https://www.instagram.com/name" class="social-icon"><i class="fa fa-instagram"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <section class="intro">
+        <div class="container">
+            <h1>Bonjour !</h1>
+            <p>On vous présente notre projet mené ensemble sur les données Cross Secmar. Ceci est un projet d'école sur des données de secours en mer.<br><br> Profitez bien du tableau de bord !</p>
+        </div>
+    </section>
+
+    <section class="team">
+        <div class="container">
+            <div class="team-member">
+              <img src="{{ url_for('static', filename='image/téléchargement.png') }}" alt="Soleymane Vienne" class="team-image">
+                <p>Soleymane VIENNE</p>
+            </div>
+            <div class="team-member">
+              <img src="{{ url_for('static', filename='image/1711122136243.jpeg') }}" alt="Souleiman Habdi" class="team-image">
+                <p>Souleiman Habdi</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container">
+            <h2>Qu'est-ce qu'un CROSS ?</h2>
+            <p>Services spécialisés du Ministère de la Transition écologique et solidaire (Direction des Affaires maritimes), les Centres régionaux opérationnels de surveillance et de sauvetage (CROSS) font partie des directions interrégionales de la mer et sont placés sous l'autorité opérationnelle des préfets maritimes...</p>
+            
+            <h2>Les missions d'un CROSS</h2>
+            <p>Services spécialisés du Ministère de la Transition écologique et solidaire (Direction des Affaires maritimes), les Centres régionaux opérationnels de surveillance et de sauvetage (CROSS) font partie des directions interrégionales de la mer et sont placés sous l'autorité opérationnelle des préfets maritimes...</p>
+            
+            <h3>Sauvetage : opérations de recherche, de sauvetage et d'assistance</h3>
+            <p>Un CROSS assure : la réception des alertes à partir d'une veille radio et téléphonique permanente, y compris celles émises par les balises de détresse et les systèmes de communication par satellite ; la direction des opérations de recherche et de sauvetage.</p>
+            
+            <h3>Navigation : la surveillance de la navigation maritime</h3>
+            <p>Un CROSS analyse les comptes rendus d'avarie des navires. Les CROSS de la Manche suivent le trafic maritime dans les zones soumises à une concentration élevée de navires, détectent les routes anormales ou à risque et identifient les contrevenants à la réglementation internationale pour prévenir les abordages en mer.</p>
+            
+            <h3>Pollutions : la surveillance des pollutions maritimes</h3>
+            <p>Un CROSS recueille les informations sur les pollutions marines, concourt à la recherche des auteurs d'infractions et participe à la mise en œuvre du dispositif Polmar (1978) de lutte contre les pollutions marines accidentelles.</p>
+            
+            <h3>Pêche : la surveillance des pêches maritimes</h3>
+            <p>C'est le CROSS Étel qui exerce cette mission. Il héberge le centre national de surveillance des pêches qui assure en temps réel le recueil des données de capture et la coordination opérationnelle des différents moyens maritimes et aériens mis à sa disposition.</p>
+            
+            <h3>Information : la diffusion des renseignements relatifs à la sécurité maritime</h3>
+            <p>Un CROSS diffuse vers les navires les renseignements essentiels à la sécurité maritime, par radio pour les bulletins météorologiques et par Navtex (Navigational text messages) pour les avis urgents en cas de modification des conditions de navigation pouvant entraîner des dangers.</p>
+            
+            <h3>Protection : la sûreté maritime</h3>
+            <p>C'est le CROSS Gris-Nez qui assure cette mission. Le centre est le point de contact national pour la réception des messages d'alerte signalant des attaques subies par les navires sous pavillon français.</p>
+            
+            <h3>Les moyens d'intervention</h3>
+            <p>Les CROSS ne disposent pas de moyens d'intervention propres. Pour mener à bien les opérations d'assistance et de sauvetage, les CROSS s'appuient sur plusieurs moyens nautiques, terrestres et aériens.</p>
+            
+            <h3>Les moyens appartenant à l'État</h3>
+            <p>Les bâtiments, les avions, les hélicoptères de la Marine nationale et les hélicoptères de l'Armée de l'air ; les hélicoptères de la Sécurité civile ; les vedettes et les hélicoptères de la Gendarmerie ; les vedettes, les avions et les hélicoptères des Douanes ; le centre de consultation médicale maritime de Toulouse et les moyens spécialisés des SAMU (SAMU de coordination médicale maritime et SMUR maritime) ; les patrouilleurs et les vedettes des Affaires maritimes.</p>
+            
+            <h3>En complément des moyens de l'État</h3>
+            <p>Tout navire qui se trouve à proximité d’une zone de détresse ; les moyens nautiques de la Société nationale de sauvetage en mer (SNSM) ; les pompiers et les postes de secours des plages des collectivités locales.</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <a href="/template" class="btn">Retour à la page principale</a>
+        </div>
+    </footer>
+</body>
+</html>
